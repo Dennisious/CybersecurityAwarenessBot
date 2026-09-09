@@ -5,6 +5,9 @@ namespace CybersecurityAwarenessBot
 {
     internal class Program
     {
+        /// <summary>
+        /// Main entry point for the Cybersecurity Awareness Bot.
+        /// </summary>
         static void Main(string[] args)
         {
             // Create the application services.
@@ -12,8 +15,9 @@ namespace CybersecurityAwarenessBot
             ConsoleUIService consoleUIService = new ConsoleUIService();
             ChatbotService chatbotService = new ChatbotService();
 
-            // Create a User object to store the current user's information.
-            User user = new User();
+
+        // Create a User object to store the current user's information.
+        User user = new User();
 
             // Play the welcome voice greeting.
             audioService.PlayWelcomeGreeting();
@@ -29,16 +33,28 @@ namespace CybersecurityAwarenessBot
             // Ask the user for their name.
             Console.Write("What should I call you? ");
 
-            user.Name = Console.ReadLine()?.Trim() ?? string.Empty;
+            string enteredName = Console.ReadLine()?.Trim() ?? string.Empty;
 
-            // Handle an empty name gracefully.
-            if (string.IsNullOrWhiteSpace(user.Name))
+            // Validate the user's name before continuing.
+            if (string.IsNullOrWhiteSpace(enteredName))
             {
                 consoleUIService.DisplayWarning(
                     "I didn't catch your name. That's okay — I'll call you there for now."
                 );
 
                 user.Name = "there";
+            }
+            else if (enteredName.Length > 50)
+            {
+                consoleUIService.DisplayWarning(
+                    "That name is quite long. I'll use a shorter version for this session."
+                );
+
+                user.Name = enteredName.Substring(0, 50);
+            }
+            else
+            {
+                user.Name = enteredName;
             }
 
             // Display a personalised welcome message.
@@ -79,16 +95,25 @@ namespace CybersecurityAwarenessBot
                     // Display the user's personalised input prompt.
                     consoleUIService.DisplayUserPrompt(user.Name);
 
-                    string userInput = Console.ReadLine()?.Trim() ?? string.Empty;
+                    string? inputFromConsole = Console.ReadLine();
+
+                    // Handle an unexpected end of console input.
+                    if (inputFromConsole == null)
+                    {
+                        consoleUIService.DisplayWarning(
+                            "No more input was received. The chatbot session will now close."
+                        );
+
+                        consoleUIService.DisplayGoodbye(user.Name);
+                        break;
+                    }
+
+                    string userInput = inputFromConsole.Trim();
 
                     // Allow the user to exit the chatbot.
-                    if (string.Equals(
-                        userInput,
-                        "exit",
-                        StringComparison.OrdinalIgnoreCase))
+                    if (IsExitCommand(userInput))
                     {
                         consoleUIService.DisplayGoodbye(user.Name);
-
                         break;
                     }
 
@@ -137,5 +162,27 @@ namespace CybersecurityAwarenessBot
                 }
             }
         }
+
+        /// <summary>
+        /// Determines whether the supplied input is an exit command.
+        /// </summary>
+        /// <param name="input">The user's input.</param>
+        /// <returns>
+        /// True when the user enters an accepted exit command; otherwise false.
+        /// </returns>
+        private static bool IsExitCommand(string input)
+        {
+            return string.Equals(
+                       input,
+                       "exit",
+                       StringComparison.OrdinalIgnoreCase)
+                   ||
+                   string.Equals(
+                       input,
+                       "quit",
+                       StringComparison.OrdinalIgnoreCase);
+        }
     }
+
+
 }
