@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 
 namespace CybersecurityAwarenessBot.Services
 {
@@ -16,12 +17,11 @@ namespace CybersecurityAwarenessBot.Services
         {
             Console.Clear();
 
-
-        string logoPath = Path.Combine(
-            AppContext.BaseDirectory,
-            "Media",
-            "cybersecurity-logo.txt"
-        );
+            string logoPath = Path.Combine(
+                AppContext.BaseDirectory,
+                "Media",
+                "cybersecurity-logo.txt"
+            );
 
             if (File.Exists(logoPath))
             {
@@ -172,7 +172,7 @@ namespace CybersecurityAwarenessBot.Services
         }
 
         /// <summary>
-        /// Displays a chatbot response.
+        /// Displays a chatbot response using a typing effect.
         /// </summary>
         /// <param name="response">The chatbot response.</param>
         public void DisplayBotResponse(string response)
@@ -191,9 +191,16 @@ namespace CybersecurityAwarenessBot.Services
                 "  ╭─────────────────────────────────────────────────────────╮"
             );
 
-            Console.WriteLine(
-                $"  │ {response}"
-            );
+            Console.Write("  │ ");
+
+            // Display the response gradually to create a typing effect.
+            foreach (char character in response)
+            {
+                Console.Write(character);
+                Thread.Sleep(15);
+            }
+
+            Console.WriteLine();
 
             Console.WriteLine(
                 "  ╰─────────────────────────────────────────────────────────╯"
@@ -269,6 +276,4 @@ namespace CybersecurityAwarenessBot.Services
             Console.WriteLine();
         }
     }
-
-
 }
