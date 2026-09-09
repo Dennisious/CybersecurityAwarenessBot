@@ -14,16 +14,18 @@ namespace CybersecurityAwarenessBot.Services
         /// </summary>
         public void DisplayLogo()
         {
-            string logoPath = Path.Combine(
-                AppContext.BaseDirectory,
-                "Media",
-                "cybersecurity-logo.txt"
-            );
+            Console.Clear();
+
+
+        string logoPath = Path.Combine(
+            AppContext.BaseDirectory,
+            "Media",
+            "cybersecurity-logo.txt"
+        );
 
             if (File.Exists(logoPath))
             {
                 string logo = File.ReadAllText(logoPath);
-
                 Console.WriteLine(logo);
             }
             else
@@ -41,16 +43,19 @@ namespace CybersecurityAwarenessBot.Services
         public void DisplaySectionHeader(string title)
         {
             Console.WriteLine();
+
             Console.ForegroundColor = ConsoleColor.Cyan;
 
             Console.WriteLine(
-                "══════════════════════════════════════════════════════════"
+                "╔══════════════════════════════════════════════════════════╗"
             );
 
-            Console.WriteLine($"  {title}");
+            Console.WriteLine(
+                $"║  {title.PadRight(54)}║"
+            );
 
             Console.WriteLine(
-                "══════════════════════════════════════════════════════════"
+                "╚══════════════════════════════════════════════════════════╝"
             );
 
             Console.ResetColor();
@@ -68,43 +73,43 @@ namespace CybersecurityAwarenessBot.Services
             Console.ForegroundColor = ConsoleColor.Green;
 
             Console.WriteLine(
-                "┌──────────────────────────────────────────────────────────┐"
+                "╔══════════════════════════════════════════════════════════╗"
             );
 
             Console.WriteLine(
-                $"│  Welcome, {userName}! 👋"
+                $"║  Welcome, {userName}! 👋"
             );
 
             Console.WriteLine(
-                "│                                                          │"
+                "║                                                          ║"
             );
 
             Console.WriteLine(
-                "│  I'm your Cybersecurity Awareness Bot.                  │"
+                "║  I'm your Cybersecurity Awareness Bot.                  ║"
             );
 
             Console.WriteLine(
-                "│  My goal is to help you stay safe and confident         │"
+                "║  My goal is to help you stay safe and confident         ║"
             );
 
             Console.WriteLine(
-                "│  while using the digital world.                         │"
+                "║  while using the digital world.                         ║"
             );
 
             Console.WriteLine(
-                "│                                                          │"
+                "║                                                          ║"
             );
 
             Console.WriteLine(
-                "│  You can ask me about phishing, passwords, suspicious   │"
+                "║  Ask me about phishing, passwords, suspicious links,    ║"
             );
 
             Console.WriteLine(
-                "│  links, safe browsing, and other cybersecurity topics.  │"
+                "║  scams, malware, MFA, privacy, social media, and more.  ║"
             );
 
             Console.WriteLine(
-                "└──────────────────────────────────────────────────────────┘"
+                "╚══════════════════════════════════════════════════════════╝"
             );
 
             Console.ResetColor();
@@ -112,7 +117,7 @@ namespace CybersecurityAwarenessBot.Services
         }
 
         /// <summary>
-        /// Displays the chatbot conversation header.
+        /// Displays the chatbot conversation header and available commands.
         /// </summary>
         public void DisplayConversationHeader()
         {
@@ -121,28 +126,35 @@ namespace CybersecurityAwarenessBot.Services
             Console.ForegroundColor = ConsoleColor.Yellow;
 
             Console.WriteLine(
-                "══════════════════════════════════════════════════════════"
+                "╔══════════════════════════════════════════════════════════╗"
             );
 
             Console.WriteLine(
-                "  🔐 CYBERSECURITY CONVERSATION"
+                "║           🔐 CYBERSECURITY CONVERSATION                 ║"
             );
 
             Console.WriteLine(
-                "══════════════════════════════════════════════════════════"
+                "╚══════════════════════════════════════════════════════════╝"
             );
 
             Console.ResetColor();
             Console.WriteLine();
 
+            Console.ForegroundColor = ConsoleColor.Gray;
+
             Console.WriteLine(
-                "Ask me a cybersecurity question."
+                "  Ask me a cybersecurity question."
             );
 
             Console.WriteLine(
-                "Type 'exit' when you are finished."
+                "  Type 'help' to see suggested topics."
             );
 
+            Console.WriteLine(
+                "  Type 'exit' or 'quit' when you are finished."
+            );
+
+            Console.ResetColor();
             Console.WriteLine();
         }
 
@@ -154,7 +166,7 @@ namespace CybersecurityAwarenessBot.Services
         {
             Console.ForegroundColor = ConsoleColor.White;
 
-            Console.Write($"{userName} > ");
+            Console.Write($"  {userName} > ");
 
             Console.ResetColor();
         }
@@ -169,18 +181,22 @@ namespace CybersecurityAwarenessBot.Services
 
             Console.ForegroundColor = ConsoleColor.Cyan;
 
-            Console.WriteLine("  🤖 BOT");
+            Console.WriteLine(
+                "  🤖 BOT"
+            );
 
             Console.ForegroundColor = ConsoleColor.White;
 
             Console.WriteLine(
-                "  ┌─────────────────────────────────────────────────────────"
+                "  ╭─────────────────────────────────────────────────────────╮"
             );
 
-            Console.WriteLine($"  │ {response}");
+            Console.WriteLine(
+                $"  │ {response}"
+            );
 
             Console.WriteLine(
-                "  └─────────────────────────────────────────────────────────"
+                "  ╰─────────────────────────────────────────────────────────╯"
             );
 
             Console.ResetColor();
@@ -195,7 +211,9 @@ namespace CybersecurityAwarenessBot.Services
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
 
-            Console.WriteLine($"  ⚠ {message}");
+            Console.WriteLine(
+                $"  ⚠ {message}"
+            );
 
             Console.ResetColor();
             Console.WriteLine();
@@ -209,7 +227,9 @@ namespace CybersecurityAwarenessBot.Services
         {
             Console.ForegroundColor = ConsoleColor.Red;
 
-            Console.WriteLine($"  ✖ {message}");
+            Console.WriteLine(
+                $"  ✖ {message}"
+            );
 
             Console.ResetColor();
             Console.WriteLine();
@@ -226,23 +246,29 @@ namespace CybersecurityAwarenessBot.Services
             Console.ForegroundColor = ConsoleColor.Green;
 
             Console.WriteLine(
-                "══════════════════════════════════════════════════════════"
+                "╔══════════════════════════════════════════════════════════╗"
             );
 
             Console.WriteLine(
-                $"  Thank you for using the Cybersecurity Awareness Bot, {userName}!"
+                $"║  Thank you for using the Cybersecurity Awareness Bot!  "
             );
 
             Console.WriteLine(
-                "  Stay alert, stay informed, and stay safe online! 🛡"
+                $"║  Stay alert, stay informed, and stay safe online! 🛡   "
             );
 
             Console.WriteLine(
-                "══════════════════════════════════════════════════════════"
+                $"║  Goodbye, {userName}!                                   "
+            );
+
+            Console.WriteLine(
+                "╚══════════════════════════════════════════════════════════╝"
             );
 
             Console.ResetColor();
             Console.WriteLine();
         }
     }
+
+
 }
