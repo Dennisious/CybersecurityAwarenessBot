@@ -2,67 +2,87 @@
 
 ## Project Overview
 
-The Cybersecurity Awareness Bot is a C# console application developed to provide basic cybersecurity awareness to South African citizens.
+The Cybersecurity Awareness Bot is a C# application developed to promote cybersecurity awareness among South African citizens. It provides practical guidance on common online threats and encourages safer digital behaviour.
 
-The chatbot provides simple and practical information about common cybersecurity threats and safe online behaviour. It allows users to interact with the application through text-based questions and provides personalised responses using the user's name.
+The project was developed as part of the C# Programming Portfolio of Evidence (POE).
 
-The project was developed as Part 1 of the C# Programming Portfolio of Evidence (POE).
+The project consists of two applications:
+
+- **Part 1 – Console Application:** A text-based chatbot with voice greeting, personalised responses, cybersecurity advice and input validation.
+- **Part 2 – WPF GUI Application:** A graphical chatbot with dynamic responses, random cybersecurity tips, conversation flow, memory and sentiment detection.
 
 ## Project Objectives
 
-The main objectives of the project are to:
+The objectives of the project are to:
 
-* Create a functional console-based cybersecurity awareness chatbot.
-* Educate users about common cybersecurity threats.
-* Provide practical advice for safer online behaviour.
-* Personalise the conversation using the user's name.
-* Demonstrate input validation and exception handling.
-* Create a professional and user-friendly console interface.
-* Demonstrate good C# programming structure and code organisation.
-* Use GitHub for version control and GitHub Actions for continuous integration.
+- Educate users about common cybersecurity threats.
+- Provide practical advice for safer online behaviour.
+- Recognise cybersecurity keywords and user questions.
+- Generate varied responses to encourage continued interaction.
+- Personalise conversations using remembered information.
+- Detect user sentiment and respond empathetically.
+- Apply input validation and error handling.
+- Demonstrate good C# programming practices and code organisation.
+- Use GitHub for version control and GitHub Actions for continuous integration.
 
 ## Features
 
-The application includes the following features:
+### Part 1 – Console Application
 
-* Voice welcome greeting using a WAV audio file.
-* Custom cybersecurity ASCII logo.
-* Personalised text greeting.
-* Interactive text-based conversation.
-* Cybersecurity questions and responses.
-* Password security awareness.
-* Phishing awareness.
-* Suspicious link awareness.
-* Malware awareness.
-* Scam and online fraud awareness.
-* Multi-factor authentication awareness.
-* Social engineering awareness.
-* Safe browsing guidance.
-* Public Wi-Fi safety guidance.
-* Privacy and personal information guidance.
-* Social media security guidance.
-* Hacked account guidance.
-* South African cybersecurity awareness.
-* Help command with suggested topics.
-* Exit and quit commands.
-* Empty input validation.
-* Long input validation.
-* Unexpected input and error handling.
-* Colour-coded console interface.
-* Borders, spacing and section headings.
-* Typing effect for chatbot responses.
+- Voice welcome greeting using a WAV audio file.
+- Cybersecurity-themed ASCII artwork.
+- Personalised welcome messages.
+- Interactive text-based conversation.
+- Password and phishing awareness.
+- Scam and online fraud prevention.
+- Malware and suspicious-link awareness.
+- Multi-factor authentication guidance.
+- Social engineering awareness.
+- Safe browsing and public Wi-Fi guidance.
+- Privacy and social media security.
+- Hacked-account guidance.
+- Help, exit and quit commands.
+- Empty and excessively long input validation.
+- Fallback responses and error handling.
+- Colour-coded interface, borders and spacing.
+- Typing effect for chatbot responses.
+
+### Part 2 – WPF GUI Application
+
+- Graphical interface developed using Windows Presentation Foundation (WPF).
+- Dark-themed interface with contrasting colours.
+- Chat-style conversation area.
+- Suggested cybersecurity topic buttons.
+- Text input and send button.
+- Voice welcome greeting.
+- ASCII artwork loaded from a text file.
+- Keyword recognition for passwords, phishing, scams, privacy, malware, public Wi-Fi and multi-factor authentication.
+- Random cybersecurity tips stored in collections.
+- Conversation flow supporting requests such as “Give me another tip” and “Explain more”.
+- Memory for the user's name and favourite cybersecurity topic.
+- Memory recall through follow-up questions.
+- Sentiment detection for worried, curious and frustrated users.
+- Empathetic responses combined with relevant cybersecurity guidance.
+- Fallback responses for unsupported questions.
+- Input validation and exception handling.
+
+Memory in the current GUI implementation is maintained during the running application session and is not guaranteed to persist after the application closes.
 
 ## Technologies Used
 
-* C#
-* .NET 8.0
-* Visual Studio 2022
-* GitHub
-* GitHub Desktop
-* GitHub Actions
-* WAV audio
+- C#
+- .NET 8
+- WPF (Windows Presentation Foundation)
+- XAML
+- Visual Studio 2022
+- Git and GitHub
+- GitHub Desktop
+- GitHub Actions
+- WAV audio files
 
 ## Project Structure
+
+The repository contains the original console application and the additional GUI application.
 
 ```text
 CybersecurityAwarenessBot/
@@ -74,306 +94,204 @@ CybersecurityAwarenessBot/
 ├── CybersecurityAwarenessBot/
 │   ├── Media/
 │   │   ├── cybersecurity-logo.txt
-│   │   └── welcome.wav
-│   │
+│   │   └── Welcome.wav
 │   ├── Models/
 │   │   └── User.cs
-│   │
 │   ├── Services/
-│   │   ├── AudioServices.cs
-│   │   ├── ChatbotServices.cs
-│   │   └── ConsoleUIServices.cs
-│   │
+│   │   ├── AudioService.cs
+│   │   ├── ChatbotService.cs
+│   │   └── ConsoleUIService.cs
 │   ├── Program.cs
 │   └── CybersecurityAwarenessBot.csproj
+│
+├── CybersecurityAwarenessBot.GUI/
+│   ├── Media/
+│   │   ├── cybersecurity-logo.txt
+│   │   └── Welcome.wav
+│   ├── Services/
+│   │   ├── AudioService.cs
+│   │   └── ChatbotService.cs
+│   ├── App.xaml
+│   ├── MainWindow.xaml
+│   ├── MainWindow.xaml.cs
+│   └── CybersecurityAwarenessBot.GUI.csproj
 │
 ├── CybersecurityAwarenessBot.sln
 └── README.md
 ```
 
-## Application Structure
+*Note: File and folder names above describe the intended structure. Verify them against the actual repository before submitting.*
 
-The application is divided into separate components to improve readability, maintainability and separation of responsibilities.
+## Application Architecture
 
-### Program.cs
+### Console Application
 
-The main entry point of the application.
+**Program.cs**
 
-It is responsible for:
+Starts the application, initialises the required services and manages the main conversation loop.
 
-* Starting the application.
-* Creating the required services.
-* Creating the user object.
-* Playing the welcome audio.
-* Displaying the ASCII logo.
-* Asking for the user's name.
-* Starting the chatbot conversation.
-* Handling the conversation loop.
-* Processing exit commands.
+**User model**
 
-### User Model
+Stores the user's name for personalised interaction.
 
-The `User` class stores information about the person interacting with the chatbot.
+**AudioService**
 
-The current application stores the user's name so that responses and prompts can be personalised.
+Locates and plays the welcome WAV audio file. Audio failures are handled so they do not unnecessarily prevent the application from starting.
 
-### Audio Service
+**ChatbotService**
 
-The `AudioService` handles the welcome voice greeting.
+Processes user input, recognises cybersecurity topics and generates relevant responses. It also handles unsupported questions.
 
-The application locates the WAV file in the `Media` folder and plays it when the program starts. Error handling is included so that the application can continue if the audio file cannot be found or played.
+**ConsoleUIService**
 
-### Chatbot Service
+Manages console presentation, including colours, section headings, user prompts, response formatting and the typing effect.
 
-The `ChatbotService` contains the chatbot's cybersecurity knowledge and response logic.
+### WPF GUI Application
 
-It analyses the user's question and identifies relevant cybersecurity topics such as:
+**MainWindow.xaml**
 
-* Passwords
-* Phishing
-* Malware
-* Scams
-* Suspicious links
-* Multi-factor authentication
-* Social engineering
-* Privacy
-* Social media
-* Public Wi-Fi
-* Hacked accounts
-* Online safety
+Defines the graphical interface, including the header, chat area, suggested topic buttons and message input controls.
 
-The service also includes a fallback response when the chatbot does not recognise a question.
+**MainWindow.xaml.cs**
 
-### Console UI Service
+Connects the interface to the chatbot service, handles user interaction and displays conversation messages.
 
-The `ConsoleUIService` controls the visual presentation of the application.
+**ChatbotService.cs**
 
-It provides:
+Contains the cybersecurity topic dictionaries, collections of tips, random response selection, conversation flow, memory recall and sentiment detection.
 
-* ASCII logo display.
-* Section headers.
-* Personalised welcome messages.
-* User prompts.
-* Bot response formatting.
-* Warning messages.
-* Error messages.
-* Goodbye messages.
-* Console colours.
-* Borders and spacing.
-* Typing effect.
+**AudioService.cs**
 
-## Input Validation
+Plays the welcome audio when the graphical application starts.
 
-The application validates user input before processing it.
+Separating the interface from the chatbot logic improves readability, maintainability and future development.
 
-The chatbot handles:
+## Memory, Sentiment and Conversation Flow
 
-* Empty names.
-* Names that are too long.
-* Empty questions.
-* Questions exceeding the allowed length.
-* Unsupported questions.
-* Unexpected console input.
-* Unexpected runtime errors.
+The GUI chatbot supports several forms of interaction.
 
-Instead of terminating immediately when an invalid input is received, the application provides an informative message and allows the user to continue where possible.
+**Memory:** The chatbot can remember a user's name and favourite cybersecurity topic during the current session and recall that information when asked.
 
-## Chatbot Interaction
+**Sentiment detection:** The chatbot recognises expressions associated with worry, frustration and curiosity. It responds with supportive language and, where a cybersecurity topic is identified, provides a relevant practical tip.
 
-The chatbot uses a conversational approach rather than a traditional numbered menu.
+**Conversation flow:** Users can request another tip, ask for more information or explore a recognised cybersecurity topic without restarting the application.
 
-Users can type questions naturally, for example:
+**Random responses:** Multiple tips are stored for supported topics, allowing the chatbot to provide varied advice.
 
-```text
-What is phishing?
-How can I make my password safer?
-What is malware?
-What is social engineering?
-How can I stay safe on public Wi-Fi?
-What should I do if my account was hacked?
-```
+## Input Validation and Error Handling
 
-Users can also type:
+Both applications include input validation and fallback handling to improve reliability.
 
-```text
-help
-```
+The applications handle relevant cases such as:
 
-to receive a list of suggested cybersecurity topics.
+- Empty input.
+- Unsupported questions.
+- Invalid or unexpected user input.
+- Missing audio or media files.
+- Recoverable runtime errors.
 
-To end the conversation, users can type:
+The GUI also handles empty message submissions and displays responses in the conversation area.
 
-```text
-exit
-```
+## Voice Greeting and Media Files
 
-or:
+The WAV greeting and ASCII artwork are stored in each application's `Media` folder.
 
-```text
-quit
-```
-
-## Voice Greeting
-
-When the application starts, it attempts to play a recorded WAV welcome message.
-
-The audio file is stored in:
-
-```text
-CybersecurityAwarenessBot/Media/welcome.wav
-```
-
-The project configuration ensures that the audio file is copied to the application's output directory when the project is built.
-
-## ASCII Visual Design
-
-The application displays a custom cybersecurity-themed ASCII logo when it starts.
-
-The logo is stored as:
-
-```text
-Media/cybersecurity-logo.txt
-```
-
-This provides a visual identity for the application while keeping the project suitable for a console environment.
+The project configuration copies the required media files to the output directory when the application is built. This allows the applications to locate their resources when running locally.
 
 ## Continuous Integration
 
-GitHub Actions is used to automatically build the project when changes are pushed to the `main` branch.
+The repository includes a GitHub Actions workflow at:
 
-The workflow is located at:
+`.github/workflows/dotnet-ci.yml`
 
-```text
-.github/workflows/dotnet-ci.yml
-```
+The workflow checks out the repository, sets up the .NET SDK, restores dependencies and builds the project configured in the workflow.
 
-The workflow performs the following tasks:
+Successful workflow runs help verify that the configured project builds correctly after changes are pushed. The GUI project should also be built and tested separately before submission.
 
-1. Checks out the repository.
-2. Sets up .NET 8.
-3. Restores project dependencies.
-4. Builds the project in Release configuration.
+## Version Control and Releases
 
-Successful workflow runs provide confirmation that the project builds correctly after changes are pushed to GitHub.
+GitHub and GitHub Desktop are used to track development and maintain the project's source code.
 
-## Version Control
+Meaningful commits document improvements made during development, including:
 
-GitHub and GitHub Desktop are used to manage the project's source code and development history.
+- Adding the GitHub Actions workflow.
+- Improving cybersecurity responses.
+- Strengthening input validation and error handling.
+- Improving the console interface and keyword matching.
+- Adding the typing effect.
+- Documenting the project.
+- Developing the WPF graphical interface.
+- Adding dynamic responses, memory and sentiment detection.
 
-Meaningful commits were created throughout development to document major improvements, including:
+Git tags and GitHub releases should identify significant project milestones and include clear version notes.
 
-* Adding the GitHub Actions CI workflow.
-* Improving cybersecurity chatbot responses.
-* Strengthening input validation and error handling.
-* Polishing the console interface and keyword matching.
-* Adding a typing effect to chatbot responses.
-* Adding project documentation.
-
-This development approach helps track changes and provides a clear history of the project's progress.
-
-## How to Run the Application
+## How to Run the Applications
 
 ### Requirements
 
-The following software is required:
+- Windows operating system.
+- Visual Studio 2022.
+- .NET 8 SDK.
+- Internet access when cloning the repository or restoring packages, if required.
 
-* Windows operating system.
-* .NET 8 SDK.
-* Visual Studio 2022 or another compatible C# development environment.
-
-### Steps
+### Run Part 1 – Console Application
 
 1. Clone or download the repository.
-2. Open the solution file:
-
-```text
-CybersecurityAwarenessBot.sln
-```
-
-3. Restore the project dependencies.
-4. Build the solution.
+2. Open `CybersecurityAwarenessBot.sln` in Visual Studio.
+3. Select the console project as the startup project.
+4. Restore dependencies and build the solution.
 5. Run the application.
 
-The application will:
+### Run Part 2 – WPF GUI Application
 
-1. Play the welcome greeting.
-2. Display the cybersecurity ASCII logo.
-3. Ask for the user's name.
-4. Display a personalised welcome.
-5. Start the cybersecurity conversation.
-
-## Example Interaction
-
-```text
-What should I call you? Denny
-
-Welcome, Denny!
-
-I'm your Cybersecurity Awareness Bot.
-My goal is to help you stay safe and confident
-while using the digital world.
-
-Denny > What is phishing?
-
-BOT
-Phishing is an attempt to trick you into revealing
-sensitive information, such as passwords or banking details.
-
-Denny > What is malware?
-
-BOT
-Malware is malicious software designed to damage systems,
-steal information, or disrupt operations.
-
-Denny > exit
-
-Thank you for using the Cybersecurity Awareness Bot!
-Stay alert, stay informed, and stay safe online!
-Goodbye, Denny!
-```
+1. Open `CybersecurityAwarenessBot.sln` in Visual Studio.
+2. Select `CybersecurityAwarenessBot.GUI` as the startup project.
+3. Restore dependencies and build the solution.
+4. Run the application.
+5. Enter a cybersecurity question or select one of the suggested topics.
+6. Test follow-up questions, memory recall and sentiment detection.
 
 ## Testing
 
-The application was tested during development to confirm that the main functionality operates correctly.
+Testing during development included:
 
-Testing included:
+- Application startup and successful builds.
+- Welcome audio playback.
+- Cybersecurity topic recognition.
+- Random tip generation.
+- Follow-up requests for additional tips.
+- Memory storage and recall.
+- Sentiment detection and empathetic responses.
+- Unsupported questions and fallback handling.
+- Empty input handling.
+- GUI interaction through the suggested buttons and message input.
+- GitHub Actions workflow checks for the configured project.
 
-* Application startup.
-* Welcome audio playback.
-* ASCII logo display.
-* User name input.
-* Personalised responses.
-* Cybersecurity topic responses.
-* Empty input handling.
-* Long input handling.
-* Unsupported questions.
-* Help command.
-* Exit command.
-* Quit command.
-* Typing effect.
-* Successful project builds.
-* Successful GitHub Actions CI checks.
+## Demonstration Video
+
+**Part 2 – Cybersecurity Awareness Bot GUI Demonstration**
+
+YouTube link: **[Insert your unlisted YouTube video link here before submission]**
+
+The demonstration should explain the application's purpose, interface, code structure, dynamic responses, conversation flow, memory recall, sentiment detection and voice greeting.
 
 ## Future Improvements
 
-Possible future improvements include:
+Potential future enhancements include:
 
-* A graphical user interface using WPF or Windows Forms.
-* More advanced natural-language processing.
-* Additional cybersecurity topics.
-* Interactive quizzes.
-* Progress tracking.
-* More detailed South African cybersecurity resources.
-* Improved accessibility features.
-* More advanced automated testing.
-* Additional user interaction features.
-
-These improvements can be explored in later parts of the project.
+- Persistent memory across application sessions.
+- Additional cybersecurity topics and South African safety resources.
+- Interactive cybersecurity quizzes.
+- Automated unit and integration tests.
+- Accessibility improvements.
+- More advanced natural-language processing.
 
 ## Author
 
 **Dennisious Moima**
 
-C# Programming Portfolio of Evidence
+C# Programming Portfolio of Evidence (POE)
 
-Part 1 – Cybersecurity Awareness Chatbot for South African Citizens
+Part 1 – Console Application
+
+Part 2 – WPF GUI Application
