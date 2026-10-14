@@ -1,10 +1,11 @@
+```yaml
 name: .NET CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
@@ -17,10 +18,11 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: "8.0.x"
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore CybersecurityAwarenessBot.sln
 
-      - name: Build project
-        run: dotnet build --configuration Release --no-restore
+      - name: Build solution
+        run: dotnet build CybersecurityAwarenessBot.sln --configuration Release --no-restore
+```
