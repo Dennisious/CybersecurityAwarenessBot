@@ -1,4 +1,4 @@
-```yaml
+
 name: .NET CI
 
 on:
@@ -25,4 +25,4 @@ jobs:
 
       - name: Build solution
         run: dotnet build CybersecurityAwarenessBot.sln --configuration Release --no-restore
-```
+
