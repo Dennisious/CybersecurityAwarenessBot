@@ -4,10 +4,11 @@
 
 The Cybersecurity Awareness Bot is a C# application developed to promote cybersecurity awareness among South African citizens. It provides practical guidance on common online threats and encourages safer digital behaviour.
 
-The project was developed as part of the C# Programming Portfolio of Evidence (POE) and consists of two applications:
+The project was developed as part of the C# Programming Portfolio of Evidence (POE) and consists of three development parts:
 
 - **Part 1 – Console Application:** A text-based chatbot featuring a voice greeting, personalised responses, cybersecurity advice and input validation.
 - **Part 2 – WPF GUI Application:** A graphical chatbot featuring dynamic responses, random cybersecurity tips, conversation flow, session-based memory and sentiment detection.
+- **Part 3 – Enhanced Cybersecurity Assistant:** An expanded WPF application with task management, database integration, automatic reminders, an interactive cybersecurity quiz, natural-language processing simulation and an activity log.
 
 ## Project Objectives
 
@@ -19,7 +20,12 @@ The objectives of the project are to:
 - Generate varied responses to encourage continued interaction.
 - Personalise conversations using remembered information.
 - Detect user sentiment and respond empathetically.
-- Apply input validation and error handling.
+- Allow users to create and manage cybersecurity-related tasks.
+- Store task information using a MySQL database.
+- Provide automatic reminders for scheduled tasks.
+- Test cybersecurity knowledge through an interactive quiz.
+- Recognise different user commands and phrasings.
+- Maintain an activity log of user actions.
 - Demonstrate good C# programming practices and code organisation.
 - Use GitHub for version control and GitHub Actions for continuous integration.
 
@@ -65,7 +71,51 @@ The objectives of the project are to:
 - Input validation and exception handling.
 - Delegate and event-based communication between chatbot logic and the interface.
 
-Memory in the current GUI implementation is maintained during the running application session and is not guaranteed to persist after the application closes.
+### Part 3 – Enhanced WPF Application
+
+**Task Assistant and Reminders**
+
+- Create cybersecurity-related tasks.
+- Add a task title and description.
+- Set an optional reminder date and time.
+- View saved tasks.
+- Mark tasks as completed.
+- Delete tasks.
+- Store and retrieve task information using MySQL.
+- Check scheduled reminders while the application is running.
+- Display reminder notifications when tasks become due.
+
+**Cybersecurity Mini-Game Quiz**
+
+- 15 cybersecurity quiz questions.
+- Multiple-choice and true-or-false questions.
+- One question displayed at a time.
+- Immediate feedback after answering.
+- Explanations to help users understand correct answers.
+- Score tracking.
+- Final quiz results.
+- Topics include phishing, password safety, safe browsing and social engineering.
+
+**Natural-Language Processing Simulation**
+
+- Recognises different ways of expressing supported commands.
+- Uses C# string methods, collections and keyword matching.
+- Recognises task and reminder requests.
+- Recognises commands to start the cybersecurity quiz.
+- Recognises cybersecurity topics such as passwords and phishing.
+- Supports requests such as "What have you done for me?" to summarise recent actions.
+- Processes commands locally without using an external AI API.
+
+**Activity Log**
+
+- Records important user actions.
+- Stores action descriptions and timestamps.
+- Tracks task-related activities.
+- Records reminder notifications.
+- Records quiz activity.
+- Records supported chatbot actions.
+- Displays recent activity.
+- Provides a Show More option to view additional entries.
 
 ## Technologies Used
 
@@ -74,13 +124,16 @@ Memory in the current GUI implementation is maintained during the running applic
 - WPF (Windows Presentation Foundation)
 - XAML
 - Visual Studio 2022
+- MySQL
+- MySqlConnector
+- MySQL Workbench
 - Git and GitHub
 - GitHub Actions
 - WAV audio files
 
 ## Project Structure
 
-The repository contains the original console application and the additional GUI application.
+The repository contains the original console application and the enhanced WPF GUI application.
 
 ```text
 CybersecurityAwarenessBot/
@@ -89,23 +142,19 @@ CybersecurityAwarenessBot/
 │       └── dotnet-ci.yml
 ├── CybersecurityAwarenessBot/
 │   ├── Media/
-│   │   ├── cybersecurity-logo.txt
-│   │   └── Welcome.wav
 │   ├── Models/
-│   │   └── User.cs
 │   ├── Services/
-│   │   ├── AudioService.cs
-│   │   ├── ChatbotService.cs
-│   │   └── ConsoleUIService.cs
 │   ├── Program.cs
 │   └── CybersecurityAwarenessBot.csproj
 ├── CybersecurityAwarenessBot.GUI/
 │   ├── Media/
-│   │   ├── cybersecurity-logo.txt
-│   │   └── Welcome.wav
+│   ├── Models/
+│   │   └── CyberTask.cs
 │   ├── Services/
-│   │   ├── AudioService.cs
-│   │   └── ChatbotService.cs
+│   │   ├── AudioServices.cs
+│   │   ├── ChatbotServices.cs
+│   │   └── TaskServices.cs
+│   ├── DatabaseService.cs
 │   ├── App.xaml
 │   ├── App.xaml.cs
 │   ├── AssemblyInfo.cs
@@ -130,11 +179,11 @@ Stores the user's name for personalised interaction.
 
 **AudioService**
 
-Locates and plays the welcome WAV audio file. Audio failures are handled so they do not unnecessarily prevent the application from starting.
+Locates and plays the welcome WAV audio file.
 
 **ChatbotService**
 
-Processes user input, recognises cybersecurity topics and generates relevant responses. It also handles unsupported questions.
+Processes user input, recognises cybersecurity topics and generates relevant responses.
 
 **ConsoleUIService**
 
@@ -148,37 +197,73 @@ Define and initialise the WPF application.
 
 **MainWindow.xaml**
 
-Defines the graphical interface, including the header, chat area, suggested topic buttons and message input controls.
+Defines the graphical interface, including the chatbot, task assistant, quiz and activity log sections.
 
 **MainWindow.xaml.cs**
 
-Connects the interface to the chatbot service, handles user interaction and displays conversation messages.
+Connects the graphical interface to the application services. It handles user interactions, task operations, quiz functionality, reminders and activity logging.
 
-**ChatbotService.cs**
+**ChatbotServices.cs**
 
-Contains cybersecurity topic dictionaries, collections of tips, random response selection, conversation flow, session-based memory and sentiment detection.
+Handles chatbot responses, cybersecurity topic recognition, conversation flow and supported natural-language commands.
 
-**AudioService.cs**
+**AudioServices.cs**
 
-Plays the welcome audio when the graphical application starts.
+Handles welcome audio playback.
 
-Separating the interface from the chatbot logic improves readability, maintainability and future development.
+**DatabaseService.cs**
 
-## Memory, Sentiment and Conversation Flow
+Creates MySQL database connections and tests database connectivity. The database password is obtained from a Windows environment variable rather than being stored directly in the source code.
 
-The GUI chatbot supports several forms of interaction.
+**TaskServices.cs**
 
-**Memory:** The chatbot can remember a user's name and favourite cybersecurity topic during the current session and recall that information when asked.
+Handles task-related database operations, including adding, retrieving, completing and deleting tasks.
 
-**Sentiment detection:** The chatbot recognises expressions associated with worry, frustration and curiosity. It responds with supportive language and provides relevant cybersecurity guidance where appropriate.
+**CyberTask.cs**
 
-**Conversation flow:** Users can request another tip, ask for more information or explore a recognised cybersecurity topic without restarting the application.
+Defines the task model and its properties, including task ID, title, description, reminder date, completion status and creation date.
 
-**Random responses:** Multiple tips are stored for supported topics, allowing the chatbot to provide varied advice.
+Separating the interface, models and services improves readability, organisation and maintainability.
+
+## Database Integration
+
+Part 3 uses MySQL to store task information.
+
+The database is named:
+
+`cybersecurity_chatbot`
+
+The task table is named:
+
+`CyberTasks`
+
+The table stores:
+
+- TaskID
+- Title
+- Description
+- ReminderAt
+- IsCompleted
+- CreatedAt
+- CompletedAt
+
+The application uses the MySqlConnector package to communicate with MySQL.
+
+### Database Configuration
+
+The application expects MySQL Server to be installed and running.
+
+The database password is supplied through a Windows environment variable:
+
+`CYBERGUARD_DB_PASSWORD`
+
+The password is not included in the source code or GitHub repository.
+
+Before running Part 3, the user must create the database and the required table in MySQL.
 
 ## Input Validation and Error Handling
 
-Both applications include input validation and fallback handling to improve reliability.
+The applications include input validation and fallback handling to improve reliability.
 
 Relevant cases include:
 
@@ -186,15 +271,19 @@ Relevant cases include:
 - Unsupported questions.
 - Invalid or unexpected user input.
 - Missing audio or media files.
+- Database connection errors.
 - Recoverable runtime errors.
+- Invalid task information.
 
-The console application also validates excessively long input. The GUI handles empty message submissions and displays responses in the conversation area.
+The application also provides feedback when users interact with the chatbot, task assistant and quiz.
 
 ## Voice Greeting and Media Files
 
-The WAV greeting and ASCII artwork are stored in each application's `Media` folder.
+The WAV greeting and ASCII artwork are stored in the applications' Media folders.
 
-The project configurations include the required media resources so that the applications can locate them when running locally. Audio playback depends on the availability of the required files and a supported Windows environment.
+The project configurations include the required media resources so that the applications can locate them when running locally.
+
+Audio playback depends on the availability of the required files and a supported Windows environment.
 
 ## Continuous Integration
 
@@ -211,7 +300,7 @@ The workflow:
 3. Restores solution dependencies.
 4. Builds `CybersecurityAwarenessBot.sln` in Release configuration.
 
-The solution includes both the console application and the WPF GUI application. A successful workflow run confirms that the automated build completed successfully for the projects included in the solution. It does not replace manual application testing.
+A successful workflow run confirms that the automated build completed for the projects included in the solution. It does not replace manual application testing.
 
 ## Version Control and Releases
 
@@ -226,9 +315,14 @@ Development milestones include:
 - Adding the typing effect.
 - Developing the WPF graphical interface.
 - Adding dynamic responses, memory and sentiment detection.
-- Updating project documentation and the solution configuration.
+- Integrating MySQL database functionality.
+- Adding task management and reminders.
+- Implementing the cybersecurity quiz.
+- Adding natural-language command recognition.
+- Implementing the activity log.
+- Updating project documentation and configuration.
 
-GitHub tags and releases should identify significant project milestones and include clear version notes. Releases should accurately describe the features and changes included in each version.
+GitHub tags and releases identify significant project milestones and should include clear version notes describing the features and changes in each version.
 
 ## How to Run the Applications
 
@@ -237,6 +331,8 @@ GitHub tags and releases should identify significant project milestones and incl
 - Windows operating system.
 - Visual Studio 2022 with the .NET desktop development workload.
 - .NET 8 SDK.
+- MySQL Server.
+- MySQL Workbench (recommended for database management).
 - Internet access when cloning the repository or restoring packages, if required.
 
 ### Run Part 1 – Console Application
@@ -253,8 +349,17 @@ GitHub tags and releases should identify significant project milestones and incl
 2. Select `CybersecurityAwarenessBot.GUI` as the startup project.
 3. Restore dependencies and build the solution.
 4. Run the application.
-5. Enter a cybersecurity question or select one of the suggested topics.
-6. Test follow-up questions, memory recall and sentiment detection.
+
+### Run Part 3 – Enhanced WPF Application
+
+1. Install and start MySQL Server.
+2. Create the `cybersecurity_chatbot` database and `CyberTasks` table.
+3. Configure the `CYBERGUARD_DB_PASSWORD` Windows environment variable.
+4. Open `CybersecurityAwarenessBot.sln` in Visual Studio.
+5. Restore the NuGet packages.
+6. Select `CybersecurityAwarenessBot.GUI` as the startup project.
+7. Build and run the application.
+8. Test the chatbot, task assistant, reminders, quiz and activity log.
 
 ## Testing
 
@@ -269,29 +374,39 @@ Testing during development included:
 - Sentiment detection and empathetic responses.
 - Unsupported questions and fallback handling.
 - Empty input handling.
-- GUI interaction through suggested buttons and message input.
+- GUI interaction through buttons and message input.
+- Successful MySQL database connection.
+- Creating, viewing, completing and deleting tasks.
+- Saving tasks to the database.
+- Creating reminders and displaying reminder notifications.
+- Starting the quiz and displaying questions.
+- Multiple-choice and true-or-false answers.
+- Immediate quiz feedback and score updates.
+- Natural-language task and quiz commands.
+- Activity log entries and action summaries.
 - GitHub Actions workflow execution and successful solution builds.
 
 These checks cover the main application features. Additional automated unit and integration tests could further improve test coverage.
 
 ## Demonstration Video
 
-**Part 2 – Cybersecurity Awareness Bot GUI Demonstration**
+**Part 3 – Enhanced Cybersecurity Awareness Bot Demonstration**
 
-YouTube link: **[Insert your unlisted YouTube video link here before submission]**
+YouTube link: **[Insert the unlisted Part 3 demonstration video link here before submission]**
 
-The demonstration should explain the application's purpose, interface, code structure, dynamic responses, conversation flow, memory recall, sentiment detection and voice greeting.
+The demonstration should explain the application's purpose, interface, project structure, database connection, task management, reminders, cybersecurity quiz, natural-language processing simulation and activity log.
 
 ## Future Improvements
 
 Potential future enhancements include:
 
-- Persistent memory across application sessions.
+- Persistent chatbot memory across application sessions.
 - Additional cybersecurity topics and South African safety resources.
-- Interactive cybersecurity quizzes.
+- More advanced natural-language processing.
+- Additional quiz questions and difficulty levels.
 - Automated unit and integration tests.
 - Accessibility improvements.
-- More advanced natural-language processing.
+- More advanced reporting and activity filtering.
 
 ## Author
 
@@ -299,6 +414,6 @@ Potential future enhancements include:
 
 C# Programming Portfolio of Evidence (POE)
 
-Part 1 – Console Application
-
-Part 2 – WPF GUI Application
+- Part 1 – Console Application
+- Part 2 – WPF GUI Application
+- Part 3 – Enhanced Cybersecurity Awareness Application
